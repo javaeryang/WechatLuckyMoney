@@ -77,13 +77,14 @@ public class Main implements IXposedHookLoadPackage {
                         String talker = getObjectField(param.thisObject, "field_talker").toString();
 
                         String blackList = PreferencesUtils.blackList();
-                        if (!isEmpty(blackList)) {
-                            for (String wechatId : blackList.split(",")) {
-                                if (talker.equals(wechatId.trim())) {
-                                    return;
-                                }
-                            }
-                        }
+//                        if (!isEmpty(blackList)) {
+//                            for (String wechatId : blackList.split(",")) {
+//                                if (talker.equals(wechatId.trim())) {
+//                                    return;
+//                                }
+//                            }
+//                        }
+                        if (blackList.contains(talker))return;
 
                         int isSend = (int) getObjectField(param.thisObject, "field_isSend");
                         if (PreferencesUtils.notSelf() && isSend != 0) {
@@ -104,13 +105,14 @@ public class Main implements IXposedHookLoadPackage {
 
                         String senderTitle = getFromXml(content, "sendertitle");
                         String notContainsWords = PreferencesUtils.notContains();
-                        if (!isEmpty(notContainsWords)) {
-                            for (String word : notContainsWords.split(",")) {
-                                if (senderTitle.contains(word)) {
-                                    return;
-                                }
-                            }
-                        }
+//                        if (!isEmpty(notContainsWords)) {
+//                            for (String word : notContainsWords.split(",")) {
+//                                if (senderTitle.contains(word)) {
+//                                    return;
+//                                }
+//                            }
+//                        }
+                        if (notContainsWords.contains(senderTitle))return;
 
                         String nativeUrlString = getFromXml(content, "nativeurl");
                         Uri nativeUrl = Uri.parse(nativeUrlString);
